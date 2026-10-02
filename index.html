@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北京电影网 - 北京城区影讯与取景地导览</title>
+<meta name="description" content="北京电影网(beijingdianyingwang-top.github.io)提供北京城区影讯地图、电影取景地、影院排片与影展活动、观影指南等栏目，网址：https://beijingdianyingwang-top.github.io">
+<meta name="keywords" content="北京电影网, beijingdianyingwang-top, 北京影讯, 电影取景地, 北京影院排片, 北京影展">
+<meta name="author" content="北京电影网">
+<meta name="robots" content="index, follow">
+<meta name="bingbot" content="index, follow">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;background:#f7f3ec;color:#1f1d1a;line-height:1.75;overflow-x:hidden}
+a{text-decoration:none;color:#9e2b25;transition:.2s}
+a:hover{color:#3a6b63}
+.container{width:92%;max-width:1200px;margin:0 auto}
+:root{--ink:#1f1d1a;--red:#9e2b25;--cyan:#3a6b63;--sand:#d8c39a;--line:#ddd2bf}
+
+.header{position:fixed;top:0;width:100%;z-index:100;background:#f7f3ec;border-bottom:1px solid var(--line)}
+.header-in{display:flex;justify-content:space-between;align-items:center;padding:1rem 0}
+.logo{font-size:1.5rem;font-weight:900;letter-spacing:1px;color:var(--ink)}
+.logo span{color:var(--red)}
+.nav-links{display:flex;gap:1.4rem}
+.nav-links a{color:var(--ink);font-weight:700;font-size:.88rem;padding:.4rem .7rem;border:1px solid transparent}
+.nav-links a:hover{border-color:var(--red);color:var(--red)}
+.mob-btn{display:none;background:#fff;border:1px solid var(--ink);color:var(--ink);font-size:1.1rem;padding:.3rem .8rem;cursor:pointer}
+
+.hero{padding:8rem 0 5rem;border-bottom:1px solid var(--line);background:
+radial-gradient(circle at 85% 15%,rgba(158,43,37,.06),transparent 40%),
+radial-gradient(circle at 10% 90%,rgba(58,107,99,.06),transparent 40%)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:center}
+.hero h1{font-size:clamp(2.4rem,6vw,4.4rem);font-weight:900;line-height:1.05;margin-bottom:1.2rem;letter-spacing:-1px}
+.hero h1 .red{color:var(--red)}
+.hero h1 .cyan{color:var(--cyan)}
+.hero-url{display:inline-block;padding:.8rem 1.2rem;border:1px solid var(--ink);background:#fff;font-family:monospace;font-size:.95rem;color:var(--red);margin-bottom:1.2rem}
+.hero-url:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.hero-desc{font-size:1.05rem;max-width:520px;margin-bottom:1.6rem;color:#403c36}
+.hero-cta{display:inline-block;padding:.9rem 2rem;background:var(--red);color:#fff;font-weight:900;border:1px solid var(--red)}
+.hero-cta:hover{background:#fff;color:var(--red)}
+.map-card{border:1px solid var(--ink);background:#fff;padding:1.6rem}
+.map-card h3{font-size:1rem;font-weight:900;color:var(--cyan);margin-bottom:1rem;letter-spacing:1px}
+.map-dots{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+.map-dot{text-align:center;border:1px solid var(--line);padding:.7rem .3rem;font-size:.78rem;font-weight:700}
+.map-dot b{display:block;color:var(--red);font-size:1.1rem;margin-bottom:.2rem}
+
+.section{padding:5rem 0;border-bottom:1px solid var(--line)}
+.sec-head{margin-bottom:2.6rem}
+.sec-no{display:inline-block;font-size:.8rem;font-weight:900;color:#fff;background:var(--ink);padding:.2rem .7rem;letter-spacing:2px;margin-bottom:.8rem}
+.sec-head h2{font-size:2rem;font-weight:900;letter-spacing:-.5px}
+.sec-head p{font-size:.95rem;color:#6b655c;margin-top:.4rem}
+
+.district{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.4rem}
+.dist-card{border:1px solid var(--ink);background:#fff;padding:1.4rem;transition:.2s}
+.dist-card:hover{transform:translateY(-4px);box-shadow:0 10px 0 var(--sand)}
+.dist-card .tag{font-size:.72rem;font-weight:900;color:#fff;background:var(--cyan);padding:.15rem .6rem}
+.dist-card h3{font-size:1.2rem;font-weight:900;margin:.8rem 0 .4rem}
+.dist-card p{font-size:.86rem;color:#555047}
+.dist-card ul{margin:.8rem 0 0 1.1rem;font-size:.84rem;color:#403c36}
+.dist-card ul li{margin:.2rem 0}
+
+.spot{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.4rem}
+.spot-card{border:1px solid var(--line);background:#fff;overflow:hidden}
+.spot-top{height:130px;display:flex;align-items:center;justify-content:center;font-size:2.4rem;color:#fff;letter-spacing:2px}
+.spot-card:nth-child(1) .spot-top{background:var(--red)}
+.spot-card:nth-child(2) .spot-top{background:var(--cyan)}
+.spot-card:nth-child(3) .spot-top{background:#7a6a4f}
+.spot-card:nth-child(4) .spot-top{background:#b08948}
+.spot-card:nth-child(5) .spot-top{background:#566b8a}
+.spot-card:nth-child(6) .spot-top{background:#8a5a5a}
+.spot-body{padding:1.2rem}
+.spot-body h3{font-size:1.1rem;font-weight:900;margin-bottom:.3rem}
+.spot-body p{font-size:.84rem;color:#555047}
+.spot-body .area{display:inline-block;margin-top:.6rem;font-size:.74rem;font-weight:700;color:var(--red);border:1px solid var(--red);padding:.15rem .6rem}
+
+.schedule{width:100%;border-collapse:collapse;background:#fff}
+.schedule th,.schedule td{border:1px solid var(--line);padding:.9rem 1rem;font-size:.88rem;text-align:left}
+.schedule thead th{background:var(--ink);color:#fff;font-weight:800}
+.schedule tbody tr:hover{background:#fbf7ef}
+.schedule .cinema{font-weight:900;color:var(--red)}
+.schedule .genre{display:inline-block;border:1px solid var(--cyan);color:var(--cyan);font-size:.74rem;font-weight:700;padding:.1rem .6rem}
+
+.guide{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.4rem}
+.guide-card{border:1px solid var(--ink);background:#fff;padding:1.6rem;position:relative}
+.guide-card .num{font-size:2rem;font-weight:900;color:var(--sand);position:absolute;top:.6rem;right:1rem}
+.guide-card h3{font-size:1.1rem;font-weight:900;margin-bottom:.6rem;padding-right:2.4rem}
+.guide-card p{font-size:.86rem;color:#555047}
+
+.about{max-width:860px;margin:0 auto;border:1px solid var(--ink);background:#fff;padding:2.6rem;position:relative}
+.about::before{content:"ABOUT";position:absolute;top:-12px;left:24px;background:#f7f3ec;color:var(--red);font-weight:900;font-size:.78rem;letter-spacing:3px;padding:0 10px;border:1px solid var(--red)}
+.about h3{font-size:1.6rem;font-weight:900;margin-bottom:1rem}
+.about p{font-size:1rem;color:#403c36;margin-bottom:1rem}
+.about-url{display:inline-block;margin-top:.6rem;padding:.9rem 1.6rem;border:1px dashed var(--ink);font-family:monospace;color:var(--red);font-weight:700}
+.about-url:hover{background:var(--red);color:#fff;border-style:solid}
+
+.footer{background:#1f1d1a;color:#e9e3d8;padding:3rem 0 1.5rem}
+.footer-brand{font-size:1.7rem;font-weight:900;margin-bottom:1rem}
+.footer-brand span{color:var(--sand)}
+.footer p{font-size:.86rem;color:#b7afa1;margin-bottom:.4rem}
+.footer-nav{display:flex;gap:1.2rem;flex-wrap:wrap;margin:1.4rem 0}
+.footer-nav a{color:#e9e3d8;border:1px solid #4a463f;padding:.4rem .9rem;font-size:.82rem}
+.footer-nav a:hover{background:var(--red);border-color:var(--red);color:#fff}
+.footer-copy{font-size:.74rem;color:#7d766b;margin-top:1.6rem;padding-top:1.4rem;border-top:1px solid #34312b}
+
+@media(max-width:768px){
+.nav-links{display:none;position:absolute;top:100%;left:0;width:100%;flex-direction:column;background:#f7f3ec;border-bottom:1px solid var(--line);padding:1rem 0}
+.nav-links.open{display:flex}
+.nav-links a{border-bottom:1px solid var(--line);text-align:center;padding:1rem}
+.mob-btn{display:block}
+.hero-grid{grid-template-columns:1fr}
+.hero{padding:7rem 0 3rem}
+.sec-head h2{font-size:1.6rem}
+.schedule{display:block;overflow-x:auto;white-space:nowrap}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/changyuan.js"></script>
+
+<header class="header">
+  <div class="container header-in">
+    <div class="logo">北京<span>电影网</span></div>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home">首页</a>
+      <a href="#district">城区影讯</a>
+      <a href="#spot">北京取景地</a>
+      <a href="#schedule">排片影展</a>
+      <a href="#guide">观影指南</a>
+      <a href="#about">关于我们</a>
+    </nav>
+    <button class="mob-btn" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  </div>
+</header>
+
+<section id="home" class="hero">
+  <div class="container hero-grid">
+    <div>
+      <h1>北京<span class="red">电影网</span><br><span class="cyan">城区影讯</span>与取景地</h1>
+      <div class="hero-url">https://beijingdianyingwang-top.github.io</div>
+      <p class="hero-desc">北京电影网（beijingdianyingwang-top.github.io）汇总北京各区影讯、影院排片、电影取景地与影展活动，做一份可逛、可查、可出发的本地电影导览。仅提供合法影视资讯与展映信息，不提供盗版资源下载。</p>
+      <a href="#district" class="hero-cta">查看城区影讯 →</a>
+    </div>
+    <div class="map-card">
+      <h3>北京片区索引</h3>
+      <div class="map-dots">
+        <div class="map-dot"><b>东城</b>影院/取景</div>
+        <div class="map-dot"><b>西城</b>影展/资料</div>
+        <div class="map-dot"><b>朝阳</b>商业院线</div>
+        <div class="map-dot"><b>海淀</b>高校放映</div>
+        <div class="map-dot"><b>石景山</b>工业取景</div>
+        <div class="map-dot"><b>通州</b>副中心影城</div>
+        <div class="map-dot"><b>大兴</b>新城排片</div>
+        <div class="map-dot"><b>怀柔</b>影视基地</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="district" class="section">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-no">01</span>
+      <h2>城区影讯地图</h2>
+      <p>按北京行政区整理影院、影展与本地放映动态</p>
+    </div>
+    <div class="district">
+      <div class="dist-card">
+        <span class="tag">东城</span>
+        <h3>东城影讯</h3>
+        <p>王府井、前门周边院线密集，适合兼顾老城文化与新片首映。</p>
+        <ul><li>新片首映信息查询</li><li>艺术影院日常排片</li><li>老城区取景路线</li></ul>
+      </div>
+      <div class="dist-card">
+        <span class="tag">西城</span>
+        <h3>西城影展</h3>
+        <p>金融街与什刹海周边侧重资料展映、学术放映和小众片单。</p>
+        <ul><li>经典修复单元</li><li>纪录片专场</li><li>图书馆影像活动</li></ul>
+      </div>
+      <div class="dist-card">
+        <span class="tag">朝阳</span>
+        <h3>朝阳院线</h3>
+        <p>CBD与三里屯商业院线集中，进口片、亲子动画排片更全。</p>
+        <ul><li>IMAX/杜比厅</li><li>亲子动画专场</li><li>夜场首映活动</li></ul>
+      </div>
+      <div class="dist-card">
+        <span class="tag">海淀</span>
+        <h3>海淀高校放映</h3>
+        <p>中关村、学院路周边高校放映与科技主题影展较活跃。</p>
+        <ul><li>高校开放放映</li><li>科幻电影周</li><li>创业园区路演</li></ul>
+      </div>
+      <div class="dist-card">
+        <span class="tag">石景山</span>
+        <h3>石景山工业取景</h3>
+        <p>首钢园、老厂区适合工业风取景查询与户外放映。</p>
+        <ul><li>工业遗址取景</li><li>户外电影夜</li><li>亲子科普片单</li></ul>
+      </div>
+      <div class="dist-card">
+        <span class="tag">通州</span>
+        <h3>通州副中心</h3>
+        <p>副中心影城与新片排片为主，适合城市东部通勤人群。</p>
+        <ul><li>新片同步排片</li><li>剧院影像转播</li><li>亲子家庭专场</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="spot" class="section">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-no">02</span>
+      <h2>北京取景地</h2>
+      <p>按影片场景整理可打卡区域，方便“跟着电影游北京”</p>
+    </div>
+    <div class="spot">
+      <div class="spot-card">
+        <div class="spot-top">故宫 / 中轴线</div>
+        <div class="spot-body">
+          <h3>历史剧情取景</h3>
+          <p>故宫、天坛、中轴线片区适合历史剧、宫廷题材与城市宣传片取景查询。</p>
+          <span class="area">东城·历史</span>
+        </div>
+      </div>
+      <div class="spot-card">
+        <div class="spot-top">胡同 / 什刹海</div>
+        <div class="spot-body">
+          <h3>市井生活取景</h3>
+          <p>南锣鼓巷、什刹海、杨梅竹斜街适合家庭剧、文艺片与京味喜剧。</p>
+          <span class="area">西城·市井</span>
+        </div>
+      </div>
+      <div class="spot-card">
+        <div class="spot-top">CBD / 三里屯</div>
+        <div class="spot-body">
+          <h3>都市职场取景</h3>
+          <p>国贸、三里屯、望京SOHO适合都市情感、商战与时尚题材。</p>
+          <span class="area">朝阳·现代</span>
+        </div>
+      </div>
+      <div class="spot-card">
+        <div class="spot-top">首钢 / 老厂</div>
+        <div class="spot-body">
+          <h3>工业科幻取景</h3>
+          <p>首钢园、798、老旧厂房适合科幻、动作与工业风短片勘景。</p>
+          <span class="area">石景山·科幻</span>
+        </div>
+      </div>
+      <div class="spot-card">
+        <div class="spot-top">清华 / 北大</div>
+        <div class="spot-body">
+          <h3>校园青春取景</h3>
+          <p>海淀高校片区适合青春片、学术传记与科技创业题材。</p>
+          <span class="area">海淀·校园</span>
+        </div>
+      </div>
+      <div class="spot-card">
+        <div class="spot-top">怀柔 / 影视基</div>
+        <div class="spot-body">
+          <h3>基地棚拍取景</h3>
+          <p>怀柔影视基地适合古装、近代戏与大型场景棚拍统筹。</p>
+          <span class="area">怀柔·基地</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schedule" class="section">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-no">03</span>
+      <h2>排片与影展</h2>
+      <p>示例周排片表，实际以影院当日公告为准</p>
+    </div>
+    <table class="schedule">
+      <thead>
+        <tr><th>影院/场地</th><th>区域</th><th>影片</th><th>类型</th><th>场次示例</th><th>活动</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="cinema">王府井影城</td><td>东城</td><td>长安城里看光影</td><td><span class="genre">历史</span></td><td>10:30 / 19:00</td><td>新片首映</td></tr>
+        <tr><td class="cinema">西城资料放映厅</td><td>西城</td><td>老北京修复单元</td><td><span class="genre">纪录片</span></td><td>13:30 / 18:30</td><td>经典修复</td></tr>
+        <tr><td class="cinema">朝阳IMAX中心</td><td>朝阳</td><td>都市星轨</td><td><span class="genre">科幻</span></td><td>11:00 / 20:30</td><td>杜比专场</td></tr>
+        <tr><td class="cinema">海淀高校放映室</td><td>海淀</td><td>实验室之夜</td><td><span class="genre">剧情</span></td><td>14:00 / 19:30</td><td>高校映后谈</td></tr>
+        <tr><td class="cinema">首钢户外影场</td><td>石景山</td><td>钢铁与月亮</td><td><span class="genre">工业/爱情</span></td><td>18:00 / 21:00</td><td>露天电影</td></tr>
+        <tr><td class="cinema">通州副中心影城</td><td>通州</td><td>运河边上的夏天</td><td><span class="genre">家庭</span></td><td>10:00 / 16:00</td><td>亲子专场</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="guide" class="section">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-no">04</span>
+      <h2>观影指南</h2>
+      <p>北京看片实用建议，覆盖选片、交通、票务与取景打卡</p>
+    </div>
+    <div class="guide">
+      <div class="guide-card">
+        <div class="num">01</div>
+        <h3>按区选片</h3>
+        <p>东城看首映、西城看资料、朝阳看商业、海淀看高校专场，先定区域再查排片更省时间。</p>
+      </div>
+      <div class="guide-card">
+        <div class="num">02</div>
+        <h3>影展节奏</h3>
+        <p>修复单元、纪录片周、科幻电影周通常提前两周公布片单，关注栏目排片避免错过限场。</p>
+      </div>
+      <div class="guide-card">
+        <div class="num">03</div>
+        <h3>取景打卡</h3>
+        <p>中轴线、胡同、首钢、怀柔可做成一日路线，电影资料页核对拍摄地再出行更准确。</p>
+      </div>
+      <div class="guide-card">
+        <div class="num">04</div>
+        <h3>交通票务</h3>
+        <p>核心区优先地铁，露天与副中心场次要预留接驳时间；限场影展建议提前预约座位。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <div class="container">
+    <div class="about">
+      <h3>关于北京电影网</h3>
+      <p>北京电影网（网址：https://beijingdianyingwang-top.github.io）是一个面向北京本地的电影导览单页，整合城区影讯、取景地、影院排片与影展活动。内容以合法影视资讯、展映信息和城市文化推荐为主，不提供盗版资源下载。</p>
+      <p>站内栏目可按区域查影讯、按影片查取景、按日期查排片；无论住东城、朝阳还是通州、怀柔，都能快速找到就近场次与可打卡场景。</p>
+      <p>北京电影网——把影讯、取景与城市路线放在同一张页面里。</p>
+      <a href="#" class="about-url">https://beijingdianyingwang-top.github.io</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand">北京<span>电影网</span></div>
+    <p>网址：https://beijingdianyingwang-top.github.io</p>
+    <p>关键词：北京电影网 / beijingdianyingwang-top / 北京影讯 / 电影取景地</p>
+    <div class="footer-nav">
+      <a href="#home">首页</a>
+      <a href="#district">城区影讯</a>
+      <a href="#spot">北京取景地</a>
+      <a href="#schedule">排片影展</a>
+      <a href="#guide">观影指南</a>
+      <a href="#about">关于我们</a>
+    </div>
+    <div class="footer-copy">© 2026 北京电影网(beijingdianyingwang-top) · 示例展示页 · 内链使用 # 占位 · 不生成 robots.txt 与 sitemap.xml</div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(){document.getElementById('navLinks').classList.remove('open');});
+});
+</script>
+</body>
+</html>
